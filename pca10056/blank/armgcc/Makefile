@@ -55,6 +55,11 @@ SRC_FILES += \
   $(PROJ_DIR)/cli.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c \
+  $(PROJ_DIR)/easylogger/src/elog.c \
+  $(PROJ_DIR)/easylogger/src/elog_utils.c \
+  $(PROJ_DIR)/easylogger/src/elog_buf.c \
+  $(PROJ_DIR)/easylogger/src/elog_async.c \
+  $(PROJ_DIR)/easylogger/port/elog_port.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -91,6 +96,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/modules/nrfx/hal \
   $(SDK_ROOT)/external/fprintf \
   $(SDK_ROOT)/components/libraries/log/src \
+  $(PROJ_DIR)/easylogger/inc \
 
 # Libraries common to all targets
 LIB_FILES += \

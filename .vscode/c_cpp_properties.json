@@ -3,7 +3,7 @@
         {
             "name": "pca10056/blank",
             "includePath": [
-                "${workspaceFolder}/pca10056/s140/config",
+                "${workspaceFolder}/pca10056/blank/config",
                 "${env:NRF_SDK}/**"
             ],
             "defines": [

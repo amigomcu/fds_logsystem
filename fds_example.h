@@ -48,6 +48,10 @@
 #define CONFIG_FILE     (0xF010)
 #define CONFIG_REC_KEY  (0x7010)
 
+#define LOG_FILE     (0x1010)
+#define ASSET_REC_KEY  (0x1010)
+#define INFO_REC_KEY  (0x2010)
+
 /* Colors used to print on the console. */
 
 #define COLOR_GREEN     "\033[1;32m"

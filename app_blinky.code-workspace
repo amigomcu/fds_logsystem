@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+                        "name": "fds log system",
+			"path": "."
+		},
+		{
+                        "name": "PCA10056/blank",
+			"path": "pca10056/blank/armgcc"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"app_error.h": "c",
+			"ble_srv_common.h": "c",
+			"nordic_common.h": "c",
+			"nrf_delay.h": "c",
+			"boards.h": "c",
+			"pca10056.h": "c",
+			"frame.h": "c",
+			"stdlib.h": "c"
+		},
+		"gotoSymbolStack.currentStackPosition": 0,
+		"gotoSymbolStack.maxStackPosition": 0,
+		"gotoSymbolStack.filePositionInfo": []
+	}
+}

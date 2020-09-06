@@ -58,73 +58,84 @@ extern "C" {
 
 /* EasyLogger assert for developer. */
 #ifdef ELOG_ASSERT_ENABLE
-    #define ELOG_ASSERT(EXPR)                                                 \
-    if (!(EXPR))                                                              \
-    {                                                                         \
-        if (elog_assert_hook == NULL) {                                       \
-            elog_a("elog", "(%s) has assert failed at %s:%ld.", #EXPR, __FUNCTION__, __LINE__); \
-            while (1);                                                        \
-        } else {                                                              \
-            elog_assert_hook(#EXPR, __FUNCTION__, __LINE__);                  \
-        }                                                                     \
-    }
+#define ELOG_ASSERT(EXPR)                                                 \
+        if (!(EXPR))                                                              \
+        {                                                                         \
+            if (elog_assert_hook == NULL) {                                       \
+                elog_a("elog", "(%s) has assert failed at %s:%ld.", #EXPR, __FUNCTION__, __LINE__); \
+                while (1);                                                        \
+            } else {                                                              \
+                elog_assert_hook(#EXPR, __FUNCTION__, __LINE__);                  \
+            }                                                                     \
+        }
+
 #else
-    #define ELOG_ASSERT(EXPR)                    ((void)0);
+#define ELOG_ASSERT(EXPR)                    ((void)0);
 #endif
 
+
+#define _ELOG_INFO(MODULE,EXPR)                                                 \
+        if (!(EXPR))                                                              \
+        {                                                                         \
+                log_i(#MODULE); \
+        }
+#define ELOG_INFO(MODULE,EXPR)                                                 \
+            _ELOG_INFO(MODULE,EXPR)
+
 #ifndef ELOG_OUTPUT_ENABLE
-    #define elog_assert(tag, ...)
-    #define elog_error(tag, ...)
-    #define elog_warn(tag, ...)
-    #define elog_info(tag, ...)
-    #define elog_debug(tag, ...)
-    #define elog_verbose(tag, ...)
+#define elog_assert(tag, ...)
+#define elog_error(tag, ...)
+#define elog_warn(tag, ...)
+#define elog_info(tag, ...)
+#define elog_debug(tag, ...)
+#define elog_verbose(tag, ...)
 #else /* ELOG_OUTPUT_ENABLE */
-    #if ELOG_OUTPUT_LVL >= ELOG_LVL_ASSERT
-        #define elog_assert(tag, ...) \
+#if ELOG_OUTPUT_LVL >= ELOG_LVL_ASSERT
+#define elog_assert(tag, ...) \
                 elog_output(ELOG_LVL_ASSERT, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_assert(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_ASSERT */
+#else
+#define elog_assert(tag, ...)
+#endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_ASSERT */
 
-    #if ELOG_OUTPUT_LVL >= ELOG_LVL_ERROR
-        #define elog_error(tag, ...) \
+#if ELOG_OUTPUT_LVL >= ELOG_LVL_ERROR
+#define elog_error(tag, ...) \
                 elog_output(ELOG_LVL_ERROR, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_error(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_ERROR */
+#else
+#define elog_error(tag, ...)
+#endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_ERROR */
 
-    #if ELOG_OUTPUT_LVL >= ELOG_LVL_WARN
-        #define elog_warn(tag, ...) \
+#if ELOG_OUTPUT_LVL >= ELOG_LVL_WARN
+#define elog_warn(tag, ...) \
                 elog_output(ELOG_LVL_WARN, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_warn(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_WARN */
+#else
+#define elog_warn(tag, ...)
+#endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_WARN */
 
-    #if ELOG_OUTPUT_LVL >= ELOG_LVL_INFO
-        #define elog_info(tag, ...) \
+#if ELOG_OUTPUT_LVL >= ELOG_LVL_INFO
+#define elog_info(tag, ...) \
                 elog_output(ELOG_LVL_INFO, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_info(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_INFO */
+#else
+#define elog_info(tag, ...)
+#endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_INFO */
 
-    #if ELOG_OUTPUT_LVL >= ELOG_LVL_DEBUG
-        #define elog_debug(tag, ...) \
+#if ELOG_OUTPUT_LVL >= ELOG_LVL_DEBUG
+#define elog_debug(tag, ...) \
                 elog_output(ELOG_LVL_DEBUG, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_debug(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_DEBUG */
+#else
+#define elog_debug(tag, ...)
+#endif /* ELOG_OUTPUT_LVL >= ELOG_LVL_DEBUG */
 
-    #if ELOG_OUTPUT_LVL == ELOG_LVL_VERBOSE
-        #define elog_verbose(tag, ...) \
+#if ELOG_OUTPUT_LVL == ELOG_LVL_VERBOSE
+#define elog_verbose(tag, ...) \
                 elog_output(ELOG_LVL_VERBOSE, tag, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-    #else
-        #define elog_verbose(tag, ...)
-    #endif /* ELOG_OUTPUT_LVL == ELOG_LVL_VERBOSE */
+#else
+#define elog_verbose(tag, ...)
+#endif /* ELOG_OUTPUT_LVL == ELOG_LVL_VERBOSE */
 #endif /* ELOG_OUTPUT_ENABLE */
 
 /* all formats index */
-typedef enum {
+typedef enum
+{
     ELOG_FMT_LVL    = 1 << 0, /**< level */
     ELOG_FMT_TAG    = 1 << 1, /**< tag */
     ELOG_FMT_TIME   = 1 << 2, /**< current time */
@@ -140,14 +151,16 @@ typedef enum {
     ELOG_FMT_DIR|ELOG_FMT_FUNC|ELOG_FMT_LINE)
 
 /* output log's tag filter */
-typedef struct {
+typedef struct
+{
     uint8_t level;
     char tag[ELOG_FILTER_TAG_MAX_LEN + 1];
     bool tag_use_flag; /**< false : tag is no used   true: tag is used */
 } ElogTagLvlFilter, *ElogTagLvlFilter_t;
 
 /* output log's filter */
-typedef struct {
+typedef struct
+{
     uint8_t level;
     char tag[ELOG_FILTER_TAG_MAX_LEN + 1];
     char keyword[ELOG_FILTER_KW_MAX_LEN + 1];
@@ -155,7 +168,8 @@ typedef struct {
 } ElogFilter, *ElogFilter_t;
 
 /* easy logger */
-typedef struct {
+typedef struct
+{
     ElogFilter filter;
     size_t enabled_fmt_set[ELOG_LVL_TOTAL_NUM];
     bool init_ok;
@@ -168,10 +182,11 @@ typedef struct {
     bool text_color_enabled;
 #endif
 
-}EasyLogger, *EasyLogger_t;
+} EasyLogger, *EasyLogger_t;
 
 /* EasyLogger error code */
-typedef enum {
+typedef enum
+{
     ELOG_NO_ERR,
 } ElogErrCode;
 
@@ -191,10 +206,10 @@ void elog_set_filter_tag_lvl(const char *tag, uint8_t level);
 uint8_t elog_get_filter_tag_lvl(const char *tag);
 void elog_raw(const char *format, ...);
 void elog_output(uint8_t level, const char *tag, const char *file, const char *func,
-        const long line, const char *format, ...);
+                 const long line, const char *format, ...);
 void elog_output_lock_enabled(bool enabled);
-extern void (*elog_assert_hook)(const char* expr, const char* func, size_t line);
-void elog_assert_set_hook(void (*hook)(const char* expr, const char* func, size_t line));
+extern void (*elog_assert_hook)(const char *expr, const char *func, size_t line);
+void elog_assert_set_hook(void (*hook)(const char *expr, const char *func, size_t line));
 int8_t elog_find_lvl(const char *log);
 const char *elog_find_tag(const char *log, uint8_t lvl, size_t *tag_len);
 void elog_hexdump(const char *name, uint8_t width, uint8_t *buf, uint16_t size);
@@ -211,45 +226,45 @@ void elog_hexdump(const char *name, uint8_t width, uint8_t *buf, uint16_t size);
  * NOTE: The `LOG_TAG` and `LOG_LVL` must defined before including the <elog.h> when you want to use log_x API.
  */
 #if !defined(LOG_TAG)
-    #define LOG_TAG          "NO_TAG"
+#define LOG_TAG          "NO_TAG"
 #endif
 #if !defined(LOG_LVL)
-    #define LOG_LVL          ELOG_LVL_VERBOSE
+#define LOG_LVL          ELOG_LVL_VERBOSE
 #endif
 #if LOG_LVL >= ELOG_LVL_ASSERT
-    #define log_a(...)       elog_a(LOG_TAG, __VA_ARGS__)
+#define log_a(...)       elog_a(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_a(...)       ((void)0);
+#define log_a(...)       ((void)0);
 #endif
 #if LOG_LVL >= ELOG_LVL_ERROR
-    #define log_e(...)       elog_e(LOG_TAG, __VA_ARGS__)
+#define log_e(...)       elog_e(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_e(...)       ((void)0);
+#define log_e(...)       ((void)0);
 #endif
 #if LOG_LVL >= ELOG_LVL_WARN
-    #define log_w(...)       elog_w(LOG_TAG, __VA_ARGS__)
+#define log_w(...)       elog_w(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_w(...)       ((void)0);
+#define log_w(...)       ((void)0);
 #endif
 #if LOG_LVL >= ELOG_LVL_INFO
-    #define log_i(...)       elog_i(LOG_TAG, __VA_ARGS__)
+#define log_i(...)       elog_i(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_i(...)       ((void)0);
+#define log_i(...)       ((void)0);
 #endif
 #if LOG_LVL >= ELOG_LVL_DEBUG
-    #define log_d(...)       elog_d(LOG_TAG, __VA_ARGS__)
+#define log_d(...)       elog_d(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_d(...)       ((void)0);
+#define log_d(...)       ((void)0);
 #endif
 #if LOG_LVL >= ELOG_LVL_VERBOSE
-    #define log_v(...)       elog_v(LOG_TAG, __VA_ARGS__)
+#define log_v(...)       elog_v(LOG_TAG, __VA_ARGS__)
 #else
-    #define log_v(...)       ((void)0);
+#define log_v(...)       ((void)0);
 #endif
 
 /* assert API short definition */
 #if !defined(assert)
-    #define assert           ELOG_ASSERT
+#define assert           ELOG_ASSERT
 #endif
 
 /* elog_buf.c */

@@ -230,13 +230,15 @@ void assert_hook(const char *expr, const char *func, size_t line)
 {
     NRF_LOG_INFO(expr);
     //elog_a("E/a", "Er");
-    log_a("abc");
+    log_a(expr);
     return;
 }
 
+#define SYMBOL_NAME MAIN
+
 int main(void)
 {
-    ret_code_t rc;
+     ret_code_t rc;
 
 #ifdef SOFTDEVICE_PRESENT
     ble_stack_init();
@@ -331,11 +333,12 @@ int main(void)
     }
 
     cli_start();
-
-    ELOG_ASSERT(1 == 0);
+    //ELOG_ASSERT(1 == 1)
+//    ELOG_INFO(SYMBOL_NAME,1 == 0);
+    ELOG_INFO(SYMBOL_NAME, 0 == 1);
 //    elog_set_output_enabled(false);
     nrf_delay_ms(1000);
-    log_i("Hello!");
+    //log_i("Hello!");
 
     /* Enter main loop. */
     for (;;)

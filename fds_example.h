@@ -43,6 +43,7 @@
 
 #include <stdint.h>
 
+#define LOG_TAG          "M"
 /* File ID and Key used for the configuration record. */
 
 #define CONFIG_FILE     (0xF010)

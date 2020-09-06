@@ -76,6 +76,9 @@ void elog_port_output(const char *log, size_t size) {
     {
         NRF_LOG_INFO("elog failed");
     }
+    else {
+        NRF_LOG_INFO("elog write %s,len %d",log,size);
+    }
 key_start++;
 }
 
@@ -105,7 +108,7 @@ void elog_port_output_unlock(void) {
 const char *elog_port_get_time(void) {
     
     /* add your code here */
-    return "10:08:12";
+    return "100812";
 
 }
 

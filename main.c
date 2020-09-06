@@ -14,6 +14,7 @@
 #include "app_error.h"
 #include "nrf_cli.h"
 #include "fds_example.h"
+#include "nrf_delay.h"
 
 #define NRF_LOG_MODULE_NAME app
 #include "nrf_log.h"
@@ -26,7 +27,7 @@
 
 
 /* Array to map FDS return values to strings. */
-char const * fds_err_str[] =
+char const *fds_err_str[] =
 {
     "FDS_SUCCESS",
     "FDS_ERR_OPERATION_TIMEOUT",
@@ -47,7 +48,7 @@ char const * fds_err_str[] =
 };
 
 /* Array to map FDS events to strings. */
-static char const * fds_evt_str[] =
+static char const *fds_evt_str[] =
 {
     "FDS_EVT_INIT",
     "FDS_EVT_WRITE",
@@ -87,7 +88,7 @@ static struct
 static bool volatile m_fds_initialized;
 
 
-static void fds_evt_handler(fds_evt_t const * p_evt)
+static void fds_evt_handler(fds_evt_t const *p_evt)
 {
     NRF_LOG_GREEN("Event: %s received (%s)",
                   fds_evt_str[p_evt->id],
@@ -95,36 +96,36 @@ static void fds_evt_handler(fds_evt_t const * p_evt)
 
     switch (p_evt->id)
     {
-        case FDS_EVT_INIT:
-            if (p_evt->result == FDS_SUCCESS)
-            {
-                m_fds_initialized = true;
-            }
-            break;
-
-        case FDS_EVT_WRITE:
+    case FDS_EVT_INIT:
+        if (p_evt->result == FDS_SUCCESS)
         {
-            if (p_evt->result == FDS_SUCCESS)
-            {
-                NRF_LOG_INFO("Record ID:\t0x%04x",  p_evt->write.record_id);
-                NRF_LOG_INFO("File ID:\t0x%04x",    p_evt->write.file_id);
-                NRF_LOG_INFO("Record key:\t0x%04x", p_evt->write.record_key);
-            }
-        } break;
+            m_fds_initialized = true;
+        }
+        break;
 
-        case FDS_EVT_DEL_RECORD:
+    case FDS_EVT_WRITE:
+    {
+        if (p_evt->result == FDS_SUCCESS)
         {
-            if (p_evt->result == FDS_SUCCESS)
-            {
-                NRF_LOG_INFO("Record ID:\t0x%04x",  p_evt->del.record_id);
-                NRF_LOG_INFO("File ID:\t0x%04x",    p_evt->del.file_id);
-                NRF_LOG_INFO("Record key:\t0x%04x", p_evt->del.record_key);
-            }
-            m_delete_all.pending = false;
-        } break;
+            NRF_LOG_INFO("Record ID:\t0x%04x",  p_evt->write.record_id);
+            NRF_LOG_INFO("File ID:\t0x%04x",    p_evt->write.file_id);
+            NRF_LOG_INFO("Record key:\t0x%04x", p_evt->write.record_key);
+        }
+    } break;
 
-        default:
-            break;
+    case FDS_EVT_DEL_RECORD:
+    {
+        if (p_evt->result == FDS_SUCCESS)
+        {
+            NRF_LOG_INFO("Record ID:\t0x%04x",  p_evt->del.record_id);
+            NRF_LOG_INFO("File ID:\t0x%04x",    p_evt->del.file_id);
+            NRF_LOG_INFO("Record key:\t0x%04x", p_evt->del.record_key);
+        }
+        m_delete_all.pending = false;
+    } break;
+
+    default:
+        break;
     }
 }
 
@@ -143,7 +144,7 @@ void delete_all_begin(void)
 void delete_all_process(void)
 {
     if (   m_delete_all.delete_next
-        & !m_delete_all.pending)
+            & !m_delete_all.pending)
     {
         NRF_LOG_INFO("Deleting next record.");
 
@@ -225,6 +226,14 @@ static void wait_for_fds_ready(void)
 }
 
 
+void assert_hook(const char *expr, const char *func, size_t line)
+{
+    NRF_LOG_INFO(expr);
+    //elog_a("E/a", "Er");
+    log_a("abc");
+    return;
+}
+
 int main(void)
 {
     ret_code_t rc;
@@ -269,14 +278,15 @@ int main(void)
     rc = fds_stat(&stat);
     APP_ERROR_CHECK(rc);
     elog_init();
-    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
-    //elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
-    //elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
     elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
-    //elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
-    //elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
+    elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
     /* start EasyLogger */
     elog_start();
+    elog_assert_set_hook(assert_hook);
 
     NRF_LOG_INFO("Found %d valid records.", stat.valid_records);
     NRF_LOG_INFO("Found %d dirty records (ready to be garbage collected).", stat.dirty_records);
@@ -322,8 +332,11 @@ int main(void)
 
     cli_start();
 
+    ELOG_ASSERT(1 == 0);
 //    elog_set_output_enabled(false);
+    nrf_delay_ms(1000);
     log_i("Hello!");
+
     /* Enter main loop. */
     for (;;)
     {

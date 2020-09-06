@@ -559,7 +559,7 @@ void elog_output(uint8_t level, const char *tag, const char *file, const char *f
     }
     /* package time, process and thread info */
     if (get_fmt_enabled(level, ELOG_FMT_TIME | ELOG_FMT_P_INFO | ELOG_FMT_T_INFO)) {
-        log_len += elog_strcpy(log_len, log_buf + log_len, "[");
+        //log_len += elog_strcpy(log_len, log_buf + log_len, "[");
         /* package time info */
         if (get_fmt_enabled(level, ELOG_FMT_TIME)) {
             log_len += elog_strcpy(log_len, log_buf + log_len, elog_port_get_time());
@@ -578,7 +578,7 @@ void elog_output(uint8_t level, const char *tag, const char *file, const char *f
         if (get_fmt_enabled(level, ELOG_FMT_T_INFO)) {
             log_len += elog_strcpy(log_len, log_buf + log_len, elog_port_get_t_info());
         }
-        log_len += elog_strcpy(log_len, log_buf + log_len, "] ");
+        //log_len += elog_strcpy(log_len, log_buf + log_len, "] ");
     }
     /* package file directory and name, function name and line number info */
     if (get_fmt_enabled(level, ELOG_FMT_DIR | ELOG_FMT_FUNC | ELOG_FMT_LINE)) {
@@ -725,13 +725,14 @@ void elog_assert_set_hook(void (*hook)(const char* expr, const char* func, size_
 int8_t elog_find_lvl(const char *log) {
     ELOG_ASSERT(log);
     /* make sure the log level is output on each format */
+    
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_ASSERT] & ELOG_FMT_LVL);
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_ERROR] & ELOG_FMT_LVL);
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_WARN] & ELOG_FMT_LVL);
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_INFO] & ELOG_FMT_LVL);
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_DEBUG] & ELOG_FMT_LVL);
     ELOG_ASSERT(elog.enabled_fmt_set[ELOG_LVL_VERBOSE] & ELOG_FMT_LVL);
-
+    
 #ifdef ELOG_COLOR_ENABLE
     uint8_t i;
     size_t csi_start_len = strlen(CSI_START);

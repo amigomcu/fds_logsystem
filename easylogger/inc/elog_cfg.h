@@ -36,17 +36,17 @@
 /* enable assert check */
 #define ELOG_ASSERT_ENABLE
 /* buffer size for every line's log */
-#define ELOG_LINE_BUF_SIZE                       128
+#define ELOG_LINE_BUF_SIZE                       16
 /* output line number max length */
-#define ELOG_LINE_NUM_MAX_LEN                    128
+#define ELOG_LINE_NUM_MAX_LEN                    16
 /* output filter's tag max length */
-#define ELOG_FILTER_TAG_MAX_LEN                  30
+#define ELOG_FILTER_TAG_MAX_LEN                  2
 /* output filter's keyword max length */
-#define ELOG_FILTER_KW_MAX_LEN                   16
+#define ELOG_FILTER_KW_MAX_LEN                   2
 /* output filter's tag level max num */
 #define ELOG_FILTER_TAG_LVL_MAX_NUM              5
 /* output newline sign */
-#define ELOG_NEWLINE_SIGN                        "\n"
+#define ELOG_NEWLINE_SIGN                        ""
 /*---------------------------------------------------------------------------*/
 /* enable log color */
 //#define ELOG_COLOR_ENABLE

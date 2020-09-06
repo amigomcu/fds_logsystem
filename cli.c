@@ -50,7 +50,7 @@ NRF_CLI_DEF(m_cli_uart, "fds example:~$ ", &cli_uart.transport, '\r', 4);
 
 
 /* Defined in main.c */
-extern char const * fds_err_str[];
+extern char const *fds_err_str[];
 
 
 void cli_init(void)
@@ -78,9 +78,9 @@ void cli_process(void)
 }
 
 
-static void cli_unknown_param_help(nrf_cli_t const * p_cli,
-                                   char const * p_param,
-                                   char const * p_cmd)
+static void cli_unknown_param_help(nrf_cli_t const *p_cli,
+                                   char const *p_param,
+                                   char const *p_cmd)
 {
     nrf_cli_fprintf(p_cli,
                     NRF_CLI_ERROR,
@@ -92,7 +92,7 @@ static void cli_unknown_param_help(nrf_cli_t const * p_cli,
 }
 
 
-static void cli_wrong_param_count_help(nrf_cli_t const * p_cli, char const * p_cmd)
+static void cli_wrong_param_count_help(nrf_cli_t const *p_cli, char const *p_cmd)
 {
     nrf_cli_fprintf(p_cli,
                     NRF_CLI_ERROR,
@@ -103,10 +103,10 @@ static void cli_wrong_param_count_help(nrf_cli_t const * p_cli, char const * p_c
 }
 
 
-static void record_write(nrf_cli_t const * p_cli,
+static void record_write(nrf_cli_t const *p_cli,
                          uint32_t fid,
                          uint32_t key,
-                         void const * p_data,
+                         void const *p_data,
                          uint32_t len)
 {
     fds_record_t const rec =
@@ -132,7 +132,7 @@ static void record_write(nrf_cli_t const * p_cli,
 }
 
 
-static void record_update(nrf_cli_t const * p_cli, configuration_t const * p_cfg)
+static void record_update(nrf_cli_t const *p_cli, configuration_t const *p_cfg)
 {
     fds_record_desc_t desc = {0};
     fds_find_token_t  ftok = {0};
@@ -162,7 +162,7 @@ static void record_update(nrf_cli_t const * p_cli, configuration_t const * p_cfg
 }
 
 
-static void record_delete(nrf_cli_t const * p_cli, uint32_t fid, uint32_t key)
+static void record_delete(nrf_cli_t const *p_cli, uint32_t fid, uint32_t key)
 {
     fds_find_token_t tok   = {0};
     fds_record_desc_t desc = {0};
@@ -216,7 +216,7 @@ bool record_delete_next(void)
 }
 
 
-static void print_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void print_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_help_requested(p_cli))
     {
@@ -234,7 +234,7 @@ static void print_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 }
 
 
-static void print_cfg_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void print_cfg_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     fds_record_desc_t desc = {0};
     fds_find_token_t  tok  = {0};
@@ -247,28 +247,28 @@ static void print_cfg_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
         rc = fds_record_open(&desc, &frec);
         switch (rc)
         {
-            case FDS_SUCCESS:
-                break;
+        case FDS_SUCCESS:
+            break;
 
-            case FDS_ERR_CRC_CHECK_FAILED:
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
-                continue;
+        case FDS_ERR_CRC_CHECK_FAILED:
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
+            continue;
 
-            case FDS_ERR_NOT_FOUND:
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
-                continue;
+        case FDS_ERR_NOT_FOUND:
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
+            continue;
 
-            default:
-            {
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
-                                "error: unexpecte error %s.\n",
-                                fds_err_str[rc]);
+        default:
+        {
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                            "error: unexpecte error %s.\n",
+                            fds_err_str[rc]);
 
-                continue;
-            }
+            continue;
+        }
         }
 
-        configuration_t * p_cfg = (configuration_t *)(frec.p_data);
+        configuration_t *p_cfg = (configuration_t *)(frec.p_data);
 
         nrf_cli_fprintf(p_cli, NRF_CLI_DEFAULT,
                         "config1:\t%s\n"
@@ -286,7 +286,7 @@ static void print_cfg_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 }
 
 
-static void print_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void print_all_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     fds_find_token_t tok   = {0};
     fds_record_desc_t desc = {0};
@@ -305,25 +305,25 @@ static void print_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
         rc = fds_record_open(&desc, &frec);
         switch (rc)
         {
-            case FDS_SUCCESS:
-                break;
+        case FDS_SUCCESS:
+            break;
 
-            case FDS_ERR_CRC_CHECK_FAILED:
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
-                continue;
+        case FDS_ERR_CRC_CHECK_FAILED:
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
+            continue;
 
-            case FDS_ERR_NOT_FOUND:
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
-                continue;
+        case FDS_ERR_NOT_FOUND:
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
+            continue;
 
-            default:
-            {
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
-                                "error: unexpecte error %s.\n",
-                                fds_err_str[rc]);
+        default:
+        {
+            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                            "error: unexpecte error %s.\n",
+                            fds_err_str[rc]);
 
-                continue;
-            }
+            continue;
+        }
         }
 
         uint32_t const len = frec.p_header->length_words * sizeof(uint32_t);
@@ -332,7 +332,7 @@ static void print_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
                         " 0x%04x\t"
                         "\t 0x%04x\t"
                         "\t 0x%04x\t"
-                        "\t %4u bytes\n",
+                        "\t %4u bytes\t",
                         frec.p_header->record_id,
                         frec.p_header->file_id,
                         frec.p_header->record_key,
@@ -341,12 +341,10 @@ static void print_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
         rc = fds_record_close(&desc);
         APP_ERROR_CHECK(rc);
     }
-
-    log_i("print record!");
 }
 
 
-static void write_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void write_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
 
     if (nrf_cli_help_requested(p_cli))
@@ -377,7 +375,7 @@ static void write_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 }
 
 
-static void update_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void update_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_help_requested(p_cli))
     {
@@ -404,18 +402,18 @@ static void update_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
         memcpy(cfg.device_name, argv[4], len);
 
         nrf_cli_fprintf(p_cli, NRF_CLI_DEFAULT,
-            "updating configuration: %s, %s, boot_count=%u, device_name=\"%s\"\n",
-            cfg.config1_on ? "on" : "off",
-            cfg.config2_on ? "on" : "off",
-            cfg.boot_count,
-            cfg.device_name);
+                        "updating configuration: %s, %s, boot_count=%u, device_name=\"%s\"\n",
+                        cfg.config1_on ? "on" : "off",
+                        cfg.config2_on ? "on" : "off",
+                        cfg.boot_count,
+                        cfg.device_name);
 
         record_update(p_cli, &cfg);
     }
 }
 
 
-static void delete_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void delete_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_help_requested(p_cli))
     {
@@ -435,7 +433,7 @@ static void delete_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 }
 
 
-static void delete_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void delete_all_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_help_requested(p_cli))
     {
@@ -452,7 +450,7 @@ static void delete_all_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 }
 
 
-static void stat_cmd(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void stat_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_help_requested(p_cli))
     {
@@ -484,18 +482,18 @@ static void stat_cmd(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 
 
-static void gc_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
+static void gc_cmd(nrf_cli_t const *p_cli, size_t argc, char **argv)
 {
     ret_code_t rc = fds_gc();
     switch (rc)
     {
-        case FDS_SUCCESS:
-            break;
+    case FDS_SUCCESS:
+        break;
 
-        default:
-            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
-                            "error: garbage collection returned %s\n", fds_err_str[rc]);
-            break;
+    default:
+        nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                        "error: garbage collection returned %s\n", fds_err_str[rc]);
+        break;
     }
 }
 
@@ -503,10 +501,137 @@ static void gc_cmd(nrf_cli_t const * p_cli, size_t argc, char ** argv)
 NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_print)
 {
     NRF_CLI_CMD(all,    NULL, PRINT_ALL_HELP, print_all_cmd),
-    NRF_CLI_CMD(config, NULL, PRINT_CFG_HELP, print_cfg_cmd),
-    NRF_CLI_SUBCMD_SET_END
+                NRF_CLI_CMD(config, NULL, PRINT_CFG_HELP, print_cfg_cmd),
+                NRF_CLI_SUBCMD_SET_END
 };
 
+char gu8Record[ELOG_LINE_BUF_SIZE];
+
+static void log_info(nrf_cli_t const *p_cli, size_t argc, char **argv)
+{
+    fds_find_token_t tok   = {0};
+    fds_record_desc_t desc = {0};
+
+    if (nrf_cli_help_requested(p_cli))
+    {
+        nrf_cli_help_print(p_cli, NULL, 0);
+    }
+    else //find leve log
+    {
+        while (fds_record_iterate(&desc, &tok) != FDS_ERR_NOT_FOUND)
+        {
+            ret_code_t rc;
+            fds_flash_record_t frec = {0};
+
+            rc = fds_record_open(&desc, &frec);
+            switch (rc)
+            {
+            case FDS_SUCCESS:
+                break;
+
+            case FDS_ERR_CRC_CHECK_FAILED:
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
+                continue;
+
+            case FDS_ERR_NOT_FOUND:
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
+                continue;
+
+            default:
+            {
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                                "error: unexpecte error %s.\n",
+                                fds_err_str[rc]);
+
+                continue;
+            }
+            }
+
+            uint32_t const len = frec.p_header->length_words * sizeof(uint32_t);
+
+            memcpy(gu8Record, frec.p_data, 16);
+            if(ELOG_LVL_INFO==elog_find_lvl((const char*)gu8Record))
+            {
+            nrf_cli_fprintf(p_cli, NRF_CLI_DEFAULT,
+                            " 0x%04x\t"
+                            "\t 0x%04x\t"
+                            "\t 0x%04x\t"
+                            "\t %4u bytes\t"
+                           "\t %s\n",
+                            frec.p_header->record_id,
+                            frec.p_header->file_id,
+                            frec.p_header->record_key,
+                            len,
+                            gu8Record);
+            }
+            rc = fds_record_close(&desc);
+            APP_ERROR_CHECK(rc);
+        }
+    }
+}
+
+static void log_assert(nrf_cli_t const *p_cli, size_t argc, char **argv)
+{
+    fds_find_token_t tok   = {0};
+    fds_record_desc_t desc = {0};
+
+    if (nrf_cli_help_requested(p_cli))
+    {
+        nrf_cli_help_print(p_cli, NULL, 0);
+    }
+    else //find leve log
+    {
+        while (fds_record_iterate(&desc, &tok) != FDS_ERR_NOT_FOUND)
+        {
+            ret_code_t rc;
+            fds_flash_record_t frec = {0};
+
+            rc = fds_record_open(&desc, &frec);
+            switch (rc)
+            {
+            case FDS_SUCCESS:
+                break;
+
+            case FDS_ERR_CRC_CHECK_FAILED:
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: CRC check failed!\n");
+                continue;
+
+            case FDS_ERR_NOT_FOUND:
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "error: record not found!\n");
+                continue;
+
+            default:
+            {
+                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                                "error: unexpecte error %s.\n",
+                                fds_err_str[rc]);
+
+                continue;
+            }
+            }
+
+            uint32_t const len = frec.p_header->length_words * sizeof(uint32_t);
+
+            memcpy(gu8Record, frec.p_data, 16);
+            if(ELOG_LVL_ASSERT==elog_find_lvl((const char*)gu8Record))
+            {
+            nrf_cli_fprintf(p_cli, NRF_CLI_DEFAULT,
+                            " 0x%04x\t"
+                            "\t 0x%04x\t"
+                            "\t 0x%04x\t"
+                            "\t %4u bytes\t"
+                           "\t %s\n",
+                            frec.p_header->record_id,
+                            frec.p_header->file_id,
+                            frec.p_header->record_key,
+                            len,
+                            gu8Record);
+            }
+            rc = fds_record_close(&desc);
+            APP_ERROR_CHECK(rc);
+        }
+    }
+}
 
 NRF_CLI_CMD_REGISTER(print,      &m_print, PRINT_HELP,      print_cmd);
 NRF_CLI_CMD_REGISTER(write,      NULL,     WRITE_HELP,      write_cmd);
@@ -515,3 +640,5 @@ NRF_CLI_CMD_REGISTER(delete,     NULL,     DELETE_HELP,     delete_cmd);
 NRF_CLI_CMD_REGISTER(delete_all, NULL,     DELETE_ALL_HELP, delete_all_cmd);
 NRF_CLI_CMD_REGISTER(gc,         NULL,     GC_HELP,         gc_cmd);
 NRF_CLI_CMD_REGISTER(stat,       NULL,     STAT_HELP,       stat_cmd);
+NRF_CLI_CMD_REGISTER(log_ii,       NULL,     STAT_HELP,       log_info);
+NRF_CLI_CMD_REGISTER(log_aa,       NULL,     STAT_HELP,       log_assert);

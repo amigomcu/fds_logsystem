@@ -20,7 +20,8 @@
 			"frame.h": "c",
 			"stdlib.h": "c",
 			"fds_example.h": "c",
-			"nrf_soc.h": "c"
+			"nrf_soc.h": "c",
+			"elog.h": "c"
 		},
 		"gotoSymbolStack.currentStackPosition": 38,
 		"gotoSymbolStack.maxStackPosition": 39,

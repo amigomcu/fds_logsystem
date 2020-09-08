@@ -82,6 +82,30 @@ extern "C" {
 #define ELOG_INFO(MODULE,EXPR)                                                 \
             _ELOG_INFO(MODULE,EXPR)
 
+#define _ELOG_DEBUG(MODULE,EXPR)                                                 \
+        if (!(EXPR))                                                              \
+        {                                                                         \
+                log_d(#MODULE); \
+        }
+#define ELOG_DEBUG(MODULE,EXPR)                                                 \
+            _ELOG_DEBUG(MODULE,EXPR)
+
+#define _ELOG_WARING(MODULE,EXPR)                                                 \
+        if (!(EXPR))                                                              \
+        {                                                                         \
+                elog_w(#MODULE); \
+        }
+#define ELOG_WARING(MODULE,EXPR)                                                 \
+            _ELOG_WARING(MODULE,EXPR)
+
+#define _ELOG_ERROR(MODULE,EXPR)                                                 \
+        if (!(EXPR))                                                              \
+        {                                                                         \
+                elog_e(#MODULE); \
+        }
+#define ELOG_ERROR(MODULE,EXPR)                                                 \
+            _ELOG_ERROR(MODULE,EXPR)
+
 #ifndef ELOG_OUTPUT_ENABLE
 #define elog_assert(tag, ...)
 #define elog_error(tag, ...)

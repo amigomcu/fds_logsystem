@@ -333,7 +333,7 @@ int main(void)
     }
 
     cli_start();
-    //ELOG_ASSERT(1 == 1)
+    ELOG_ASSERT(1 == 0)
 //    ELOG_INFO(SYMBOL_NAME,1 == 0);
     ELOG_INFO(SYMBOL_NAME, 0 == 1);
 //    elog_set_output_enabled(false);

@@ -518,7 +518,8 @@ static void log_info(nrf_cli_t const *p_cli, size_t argc, char **argv)
     }
     else //find leve log
     {
-        while (fds_record_iterate(&desc, &tok) != FDS_ERR_NOT_FOUND)
+        while(fds_record_find_in_file(0x1300,&desc, &tok)!= FDS_ERR_NOT_FOUND)
+        //while (fds_record_iterate(&desc, &tok) != FDS_ERR_NOT_FOUND)
         {
             ret_code_t rc;
             fds_flash_record_t frec = {0};

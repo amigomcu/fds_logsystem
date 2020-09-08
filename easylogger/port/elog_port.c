@@ -53,8 +53,20 @@ ElogErrCode elog_port_init(void) {
     return result;
 }
 
+static int16_t getKey(const char *log)
+{
+    switch (log[0]) {
+    case 'A': return ELOG_LVL_ASSERT;
+    case 'E': return ELOG_LVL_ERROR;
+    case 'W': return ELOG_LVL_WARN;
+    case 'I': return ELOG_LVL_INFO;
+    case 'D': return ELOG_LVL_DEBUG;
+    case 'V': return ELOG_LVL_VERBOSE;
+    default: return -1;
+    }
+}
+
 //ASSET_REC_KEY
-uint16_t key_start =ASSET_REC_KEY;
 /**
  * output log port interface
  *
@@ -63,10 +75,16 @@ uint16_t key_start =ASSET_REC_KEY;
  */
 void elog_port_output(const char *log, size_t size) {
     /* add your code here */
+
+    int16_t key_start =getKey(log);
+
+    if(key_start == -1)
+        return;
+
     fds_record_t const rec =
     {
-        .file_id           = LOG_FILE,
-        .key               = key_start,
+        .file_id           = ((key_start << 8) | 0x1000),
+        .key               = ((key_start << 8) | 0x1000),
         .data.p_data       = log,
         .data.length_words = (size + 3) / sizeof(uint32_t)
     };
@@ -79,7 +97,6 @@ void elog_port_output(const char *log, size_t size) {
     else {
         NRF_LOG_INFO("elog write %s,len %d",log,size);
     }
-key_start++;
 }
 
 /**

@@ -31,6 +31,7 @@
 
 #ifdef ELOG_ASYNC_OUTPUT_ENABLE
 
+
 #ifdef ELOG_ASYNC_OUTPUT_USING_PTHREAD
 #include <pthread.h>
 #include <sched.h>
@@ -47,9 +48,9 @@
 #define ELOG_ASYNC_OUTPUT_PTHREAD_PRIORITY       (sched_get_priority_max(SCHED_RR) - 1)
 #endif
 /* output thread poll get log buffer size  */
-#ifndef ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE
-#define ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE         (ELOG_LINE_BUF_SIZE - 4)
-#endif
+//#ifndef ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE
+//#define ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE         (ELOG_LINE_BUF_SIZE - 4)
+//#endif
 #endif /* ELOG_ASYNC_OUTPUT_USING_PTHREAD */
 
 /* asynchronous output log notice */

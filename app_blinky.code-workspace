@@ -23,14 +23,14 @@
 			"nrf_soc.h": "c",
 			"elog.h": "c"
 		},
-		"gotoSymbolStack.currentStackPosition": 38,
-		"gotoSymbolStack.maxStackPosition": 39,
+		"gotoSymbolStack.currentStackPosition": 46,
+		"gotoSymbolStack.maxStackPosition": 46,
 		"gotoSymbolStack.filePositionInfo": [
 			{
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 287,
+					"line": 296,
 					"character": 4
 				}
 			},
@@ -38,7 +38,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 337,
+					"line": 339,
 					"character": 6
 				}
 			},
@@ -70,7 +70,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 337,
+					"line": 339,
 					"character": 6
 				}
 			},
@@ -142,7 +142,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 337,
+					"line": 339,
 					"character": 8
 				}
 			},
@@ -182,7 +182,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 329,
+					"line": 331,
 					"character": 14
 				}
 			},
@@ -190,7 +190,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 334,
+					"line": 336,
 					"character": 6
 				}
 			},
@@ -198,7 +198,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 337,
+					"line": 339,
 					"character": 4
 				}
 			},
@@ -254,7 +254,7 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 337,
+					"line": 339,
 					"character": 4
 				}
 			},
@@ -310,32 +310,88 @@
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 334,
+					"line": 336,
 					"character": 4
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\src\\elog.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 658,
+					"character": 12
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\src\\elog_async.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 267,
+					"character": 16
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\src\\elog_async.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 267,
+					"character": 35
 				}
 			},
 			{
 				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 334,
-					"character": 4
+					"line": 201,
+					"character": 26
 				}
 			},
 			{
-				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\main.c",
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 334,
-					"character": 4
+					"line": 34,
+					"character": 40
 				}
 			},
 			{
-				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\external\\easylogger\\src\\elog_async.c",
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
 				"viewColumn": 1,
 				"textPosition": {
-					"line": 69,
-					"character": 49
+					"line": 34,
+					"character": 48
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 34,
+					"character": 48
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 34,
+					"character": 29
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 40,
+					"character": 15
+				}
+			},
+			{
+				"textFile": "c:\\Users\\steven\\Downloads\\nRF5_SDK_15.3.0_59ac345\\examples\\peripheral\\flash_fds\\easylogger\\port\\elog_port.c",
+				"viewColumn": 1,
+				"textPosition": {
+					"line": 40,
+					"character": 30
 				}
 			}
 		]

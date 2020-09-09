@@ -86,7 +86,13 @@ static struct
 
 /* Flag to check fds initialization. */
 static bool volatile m_fds_initialized;
-
+/**
+ * @brief 
+ * description write flash state
+ * true, write now ,set log_out
+ * false, only when fds_event
+ */
+extern volatile bool isWriteing;
 
 static void fds_evt_handler(fds_evt_t const *p_evt)
 {
@@ -111,6 +117,7 @@ static void fds_evt_handler(fds_evt_t const *p_evt)
             NRF_LOG_INFO("File ID:\t0x%04x",    p_evt->write.file_id);
             NRF_LOG_INFO("Record key:\t0x%04x", p_evt->write.record_key);
         }
+            isWriteing  = false;
     } break;
 
     case FDS_EVT_DEL_RECORD:
@@ -194,6 +201,8 @@ static void timer_init(void)
 {
     ret_code_t err_code = app_timer_init();
     APP_ERROR_CHECK(err_code);
+
+
 }
 
 
@@ -230,7 +239,7 @@ void assert_hook(const char *expr, const char *func, size_t line)
 {
     NRF_LOG_INFO(expr);
     //elog_a("E/a", "Er");
-    log_a(expr);
+    log_a("A");
     return;
 }
 
@@ -292,7 +301,7 @@ int main(void)
 
     NRF_LOG_INFO("Found %d valid records.", stat.valid_records);
     NRF_LOG_INFO("Found %d dirty records (ready to be garbage collected).", stat.dirty_records);
-
+/*
     fds_record_desc_t desc = {0};
     fds_find_token_t  tok  = {0};
 
@@ -300,42 +309,36 @@ int main(void)
 
     if (rc == FDS_SUCCESS)
     {
-        /* A config file is in flash. Let's update it. */
         fds_flash_record_t config = {0};
 
-        /* Open the record and read its contents. */
         rc = fds_record_open(&desc, &config);
         APP_ERROR_CHECK(rc);
 
-        /* Copy the configuration from flash into m_dummy_cfg. */
         memcpy(&m_dummy_cfg, config.p_data, sizeof(configuration_t));
 
         NRF_LOG_INFO("Config file found, updating boot count to %d.", m_dummy_cfg.boot_count);
 
-        /* Update boot count. */
         m_dummy_cfg.boot_count++;
 
-        /* Close the record when done reading. */
         rc = fds_record_close(&desc);
         APP_ERROR_CHECK(rc);
 
-        /* Write the updated record to flash. */
         rc = fds_record_update(&desc, &m_dummy_record);
         APP_ERROR_CHECK(rc);
     }
     else
     {
-        /* System config not found; write a new one. */
         NRF_LOG_INFO("Writing config file...");
 
         rc = fds_record_write(&desc, &m_dummy_record);
         APP_ERROR_CHECK(rc);
-    }
+    }*/
 
     cli_start();
-    ELOG_ASSERT(1 == 0)
+    ELOG_ASSERT(1==0)
+    ELOG_ASSERT(2==0)
 //    ELOG_INFO(SYMBOL_NAME,1 == 0);
-    ELOG_INFO(SYMBOL_NAME, 0 == 1);
+    //ELOG_INFO(SYMBOL_NAME, 0 == 1);
 //    elog_set_output_enabled(false);
     nrf_delay_ms(1000);
     //log_i("Hello!");

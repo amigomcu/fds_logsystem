@@ -3,11 +3,13 @@
 //#include "fds_example.h"
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
+#include "app_timer.h"
 
-#define LOG_FILE     (0x1010)
-#define ASSET_REC_KEY  (0x1010)
-#define INFO_REC_KEY  (0x2010)
+#ifndef ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE
+#define ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE         (ELOG_LINE_BUF_SIZE)
+#endif
 
+APP_TIMER_DEF(m_FdsWrite_tmr);
 /*uint8_t gu8LogString[ELOG_LINE_BUF_SIZE];
 static fds_record_t const m_assert_record =
 {
@@ -17,45 +19,64 @@ static fds_record_t const m_assert_record =
     .data.length_words = (sizeof(gu8LogString) + 3) / sizeof(uint32_t),
 };*/
 
+
+volatile bool isWriteing = false;
+static bool isSynTimeRun = false;
+/**
+ * @brief
+ * 1. check the state(write ack,semi)
+ * 2.
+ * @param p_context
+ */
+
+void fdsFifo_timer_handler(void *p_context)
+{
+    ret_code_t ret;
+    size_t get_log_size = 0;
+    static char poll_get_buf[ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE];
+
+    if (false == isWriteing)
+    {
+
+#ifdef ELOG_ASYNC_LINE_OUTPUT
+        get_log_size = elog_async_get_line_log(poll_get_buf, ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE);
+#else
+        get_log_size = elog_async_get_log(poll_get_buf, ELOG_ASYNC_POLL_GET_LOG_BUF_SIZE);
+#endif
+
+        if (get_log_size)
+        {
+            isWriteing  = true;
+            elog_port_output(poll_get_buf, get_log_size);
+        }
+        else
+        {
+            isSynTimeRun = false;
+            ret = app_timer_stop(m_FdsWrite_tmr);
+        }
+    }
+    return;
+}
 /**
  * EasyLogger port initialize
  *
  * @return result
  */
-ElogErrCode elog_port_init(void) {
+ElogErrCode elog_port_init(void)
+{
     ret_code_t rc;
     ElogErrCode result = ELOG_NO_ERR;
-
     /* add your code here */
-    
-    fds_record_desc_t desc = {0};
-    fds_find_token_t  tok  = {0};
 
-    rc = fds_record_find(LOG_FILE, ASSET_REC_KEY, &desc, &tok);
-
-    if (rc == FDS_SUCCESS)
-    {
-        /* A config file is in flash. Let's update it. */
-        fds_flash_record_t config = {0};
-
-        /* Open the record and read its contents. */
-        rc = fds_record_open(&desc, &config);
-        APP_ERROR_CHECK(rc);
-
-        /* Copy the configuration from flash into m_dummy_cfg. */
-        //memcpy(&m_dummy_cfg, config.p_data, sizeof(configuration_t));
-        rc = fds_record_close(&desc);
-        APP_ERROR_CHECK(rc);
-        NRF_LOG_INFO("find log record");
-    } else {
-        NRF_LOG_INFO("not find log record");
-    }
+    rc = app_timer_create(&m_FdsWrite_tmr, APP_TIMER_MODE_REPEATED, fdsFifo_timer_handler);
+    APP_ERROR_CHECK(rc);
     return result;
 }
 
 static int16_t getKey(const char *log)
 {
-    switch (log[0]) {
+    switch (log[0])
+    {
     case 'A': return ELOG_LVL_ASSERT;
     case 'E': return ELOG_LVL_ERROR;
     case 'W': return ELOG_LVL_WARN;
@@ -73,12 +94,13 @@ static int16_t getKey(const char *log)
  * @param log output of log
  * @param size log size
  */
-void elog_port_output(const char *log, size_t size) {
+void elog_port_output(const char *log, size_t size)
+{
     /* add your code here */
 
-    int16_t key_start =getKey(log);
+    int16_t key_start = getKey(log);
 
-    if(key_start == -1)
+    if (key_start == -1)
         return;
 
     fds_record_t const rec =
@@ -94,27 +116,30 @@ void elog_port_output(const char *log, size_t size) {
     {
         NRF_LOG_INFO("elog failed");
     }
-    else {
-        NRF_LOG_INFO("elog write %s,len %d",log,size);
+    else
+    {
+        NRF_LOG_INFO("elog write %s,len %d", log, size);
     }
 }
 
 /**
  * output lock
  */
-void elog_port_output_lock(void) {
-    
+void elog_port_output_lock(void)
+{
+
     /* add your code here */
-    
+
 }
 
 /**
  * output unlock
  */
-void elog_port_output_unlock(void) {
-    
+void elog_port_output_unlock(void)
+{
+
     /* add your code here */
-    
+
 }
 
 /**
@@ -122,11 +147,10 @@ void elog_port_output_unlock(void) {
  *
  * @return current time
  */
-const char *elog_port_get_time(void) {
-    
+const char *elog_port_get_time(void)
+{
     /* add your code here */
     return "100812";
-
 }
 
 /**
@@ -134,10 +158,11 @@ const char *elog_port_get_time(void) {
  *
  * @return current process name
  */
-const char *elog_port_get_p_info(void) {
-    
+const char *elog_port_get_p_info(void)
+{
+
     /* add your code here */
-    
+
     return "pid:1008";
 }
 
@@ -146,8 +171,25 @@ const char *elog_port_get_p_info(void) {
  *
  * @return current thread name
  */
-const char *elog_port_get_t_info(void) {
-    
+const char *elog_port_get_t_info(void)
+{
+
     /* add your code here */
     return "tid:24";
+}
+
+/**
+ * @brief
+ * check the log syn timer is runing now  
+ * see the isSynTimeRun
+ */
+void elog_async_output_notice(void)
+{
+    ret_code_t ret;
+    if(false == isSynTimeRun)
+    {
+            isSynTimeRun = true;
+            ret = app_timer_start(m_FdsWrite_tmr, APP_TIMER_TICKS(1000), NULL);
+    }
+    return;
 }
